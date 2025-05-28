@@ -1,6 +1,23 @@
 import requests
 from bs4 import BeautifulSoup
+import shutil
 
+art = r"""
+  __                       _   
+ / _| ___  _ __ __ _  ___ | |_ 
+| |_ / _ \| '__/ _` |/ _ \| __|
+|  _| (_) | | | (_| | (_) | |_ 
+|_|  \___/|_|  \__, |\___/ \__|
+               |___/           
+
+https://discord.gg/5z9hdquRfF
+
+"""
+
+width = shutil.get_terminal_size().columns
+for line in art.splitlines():
+    print(line.center(width))
+    
 def main():
     ckey = input("CKEY: ")
     path = input("FULL PATH TO DICT: ")
