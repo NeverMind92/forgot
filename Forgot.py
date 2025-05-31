@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import shutil
+import sys
+import time
 
 art = r"""
   __                       _   
@@ -18,13 +20,25 @@ width = shutil.get_terminal_size().columns
 for line in art.splitlines():
     print(line.center(width))
     
+def animation():
+    frames = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
+    i = 0
+    while True:
+        sys.stdout.write(f"\r{frames[i]} Scan...")
+        sys.stdout.flush()
+        time.sleep(0.1)
+        i = (i + 1) % len(frames)
+
+
 def main():
-    ckey = input("CKEY: ")
-    path = input("FULL PATH TO DICT: ")
-    
-    session = requests.Session()
-    
     try:
+        ckey = input("CKEY: ")
+        path = input("FULL PATH TO DICT: ")
+        
+        session = requests.Session()
+        
+        animation()
+
         with open(path) as f:
             for password in f:
                 password = password.strip()
@@ -50,13 +64,12 @@ def main():
                     if response.headers["Location"].endswith("/"):
                         print(f"✅ SUCCESS!!!! PASSWORD: {password}")
                         return
-                
-                print(f"❌ FAILED!!!! PASSWORD: {password}")
-    
     except FileNotFoundError:
         print("DICT NOT FOUND")
     except Exception as e:
         print(f"ERROR: {str(e)}")
+    except KeyboardInterrupt:
+        print("\nok")
 
 if __name__ == '__main__': 
     main()
